@@ -21,7 +21,7 @@ let cellSize = 50;
 let col = canvasWidth / cellSize;
 let row = canvasHeight / cellSize;
 
-// fill 2d array with coordinats and random alive or dead state
+// fill a 2d array with coordinats and random alive or dead state
 for (let x = 0; x < col; x++) {
   cells[x] = [];
 
@@ -29,28 +29,6 @@ for (let x = 0; x < col; x++) {
     cells[x][y] = { x: x * cellSize, y: y * cellSize, alive: Boolean(Math.floor(Math.random() * 2)) };
   }
 }
-
-// deep clone the cells array
-let nextGen = cells.map((cell) => [...cell]);
-
-console.log("nextGen", nextGen);
-
-// draw all cells
-function draw() {
-  for (let x = 0; x < col; x++) {
-    for (let y = 0; y < row; y++) {
-      ctx.beginPath();
-      ctx.rect(cells[x][y].x, cells[x][y].y, cellSize, cellSize);
-      ctx.fillStyle = cells[x][y].alive ? "slateblue" : "white";
-      ctx.fill();
-      ctx.strokeStyle = "lightsteelblue";
-      ctx.stroke();
-      ctx.closePath();
-    }
-  }
-}
-
-draw();
 
 // count all dead and alive neighbours from a specific cell
 function countNeighbours() {
@@ -83,6 +61,27 @@ countNeighbours();
 
 console.log(cells);
 
+// deep clone the cells array
+let nextGen = JSON.parse(JSON.stringify(cells));
+console.log("nextGen", nextGen);
+
+// draw all cells
+function draw() {
+  for (let x = 0; x < col; x++) {
+    for (let y = 0; y < row; y++) {
+      ctx.beginPath();
+      ctx.rect(cells[x][y].x, cells[x][y].y, cellSize, cellSize);
+      ctx.fillStyle = cells[x][y].alive ? "slateblue" : "white";
+      ctx.fill();
+      ctx.strokeStyle = "lightsteelblue";
+      ctx.stroke();
+      ctx.closePath();
+    }
+  }
+}
+
+draw();
+
 function render() {
   // ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   // ctx.fillStyle = "black";
@@ -92,6 +91,3 @@ function render() {
 render();
 
 // setInterval(render, 1000);
-
-nextGen[0][0].alive = "*_*";
-console.log(cells[0][0].alive);
