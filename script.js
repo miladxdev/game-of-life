@@ -8,10 +8,6 @@ let canvasHeight = 700;
 canvas.width = canvasWidth;
 canvas.height = canvasHeight;
 
-// canvas background
-ctx.fillStyle = "black";
-ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
 let cellSize = 5;
 
 // number of cols and rows base on cell size
@@ -77,13 +73,14 @@ console.log(cells);
 function draw() {
   for (let x = 0; x < col; x++) {
     for (let y = 0; y < row; y++) {
-      ctx.beginPath();
-      ctx.rect(cells[x][y].x, cells[x][y].y, cellSize, cellSize);
-      ctx.fillStyle = cells[x][y].isAlive ? "slateblue" : "white";
-      ctx.fill();
-      // ctx.strokeStyle = "white";
-      // ctx.stroke();
-      ctx.closePath();
+      if (cells[x][y].isAlive) {
+        // only draw ailve cells (for better performance)
+        ctx.beginPath();
+        ctx.rect(cells[x][y].x, cells[x][y].y, cellSize, cellSize);
+        ctx.fillStyle = "slateblue";
+        ctx.fill();
+        ctx.closePath();
+      }
     }
   }
 }
