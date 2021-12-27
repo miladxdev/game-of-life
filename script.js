@@ -2,8 +2,8 @@ const canvas = document.getElementById("canvas");
 
 const ctx = canvas.getContext("2d");
 
-let canvasWidth = 600;
-let canvasHeight = 600;
+let canvasWidth = 700;
+let canvasHeight = 700;
 
 canvas.width = canvasWidth;
 canvas.height = canvasHeight;
@@ -12,7 +12,7 @@ canvas.height = canvasHeight;
 ctx.fillStyle = "black";
 ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-let cellSize = 10;
+let cellSize = 5;
 
 // number of cols and rows base on cell size
 let col = canvasWidth / cellSize;
@@ -81,8 +81,8 @@ function draw() {
       ctx.rect(cells[x][y].x, cells[x][y].y, cellSize, cellSize);
       ctx.fillStyle = cells[x][y].isAlive ? "slateblue" : "white";
       ctx.fill();
-      ctx.strokeStyle = "white";
-      ctx.stroke();
+      // ctx.strokeStyle = "white";
+      // ctx.stroke();
       ctx.closePath();
     }
   }
