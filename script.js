@@ -2,8 +2,8 @@ const canvas = document.getElementById("canvas");
 
 const ctx = canvas.getContext("2d");
 
-let canvasWidth = 200;
-let canvasHeight = 200;
+let canvasWidth = 600;
+let canvasHeight = 600;
 
 canvas.width = canvasWidth;
 canvas.height = canvasHeight;
@@ -12,21 +12,26 @@ canvas.height = canvasHeight;
 ctx.fillStyle = "black";
 ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-// array to store all cells
-let cells = [];
-
-let cellSize = 50;
+let cellSize = 10;
 
 // number of cols and rows base on cell size
 let col = canvasWidth / cellSize;
 let row = canvasHeight / cellSize;
+
+// array to store all cells
+let cells = [];
 
 // fill a 2d array with coordinats and random alive or dead state
 for (let x = 0; x < col; x++) {
   cells[x] = [];
 
   for (let y = 0; y < row; y++) {
-    cells[x][y] = { x: x * cellSize, y: y * cellSize, alive: Boolean(Math.floor(Math.random() * 2)) };
+    cells[x][y] = {
+      x: x * cellSize,
+      y: y * cellSize,
+      isAlive: Boolean(Math.floor(Math.random() * 2)), // true or false
+      aliveNeighbours: null,
+    };
   }
 }
 
@@ -39,17 +44,26 @@ function countNeighbours() {
     for (let y = 0; y < row; y++) {
       if (x - 1 >= 0 && x + 1 < row && y - 1 >= 0 && y + 1 < col) {
         // ignore the edges
-        cells[x][y - 1].alive ? alive++ : dead++; // up
-        cells[x + 1][y].alive ? alive++ : dead++; // right
-        cells[x][y + 1].alive ? alive++ : dead++; // bottom
-        cells[x - 1][y].alive ? alive++ : dead++; // left
-        cells[x - 1][y - 1].alive ? alive++ : dead++; // left-top
-        cells[x + 1][y - 1].alive ? alive++ : dead++; // right-top
-        cells[x + 1][y + 1].alive ? alive++ : dead++; // right-bottom
-        cells[x - 1][y + 1].alive ? alive++ : dead++; // left- bottom
+        cells[x][y - 1].isAlive ? alive++ : dead++; // up
+        cells[x + 1][y].isAlive ? alive++ : dead++; // right
+        cells[x][y + 1].isAlive ? alive++ : dead++; // bottom
+        cells[x - 1][y].isAlive ? alive++ : dead++; // left
+        cells[x - 1][y - 1].isAlive ? alive++ : dead++; // left-top
+        cells[x + 1][y - 1].isAlive ? alive++ : dead++; // right-top
+        cells[x + 1][y + 1].isAlive ? alive++ : dead++; // right-bottom
+        cells[x - 1][y + 1].isAlive ? alive++ : dead++; // left- bottom
       }
 
-      cells[x][y].neighbours = { alive, dead };
+      // apply rules on the clone array
+      if (cells[x][y].isAlive && (alive == 2 || alive == 3)) {
+        nextGen[x][y].isAlive = true;
+      } else if (!cells[x][y].isAlive && alive == 3) {
+        nextGen[x][y].isAlive = true;
+      } else {
+        nextGen[x][y].isAlive = false;
+      }
+
+      cells[x][y].aliveNeighbours = alive;
 
       alive = 0;
       dead = 0;
@@ -57,13 +71,7 @@ function countNeighbours() {
   }
 }
 
-countNeighbours();
-
 console.log(cells);
-
-// deep clone the cells array
-let nextGen = JSON.parse(JSON.stringify(cells));
-console.log("nextGen", nextGen);
 
 // draw all cells
 function draw() {
@@ -71,23 +79,33 @@ function draw() {
     for (let y = 0; y < row; y++) {
       ctx.beginPath();
       ctx.rect(cells[x][y].x, cells[x][y].y, cellSize, cellSize);
-      ctx.fillStyle = cells[x][y].alive ? "slateblue" : "white";
+      ctx.fillStyle = cells[x][y].isAlive ? "slateblue" : "white";
       ctx.fill();
-      ctx.strokeStyle = "lightsteelblue";
+      ctx.strokeStyle = "white";
       ctx.stroke();
       ctx.closePath();
     }
   }
 }
 
-draw();
-
 function render() {
-  // ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-  // ctx.fillStyle = "black";
-  // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+  // clear frame
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+  // deep clone the cells array
+  nextGen = JSON.parse(JSON.stringify(cells));
+
+  // draw all cells
+  draw();
+
+  // count alive neighbours for each cell and apply rules to nextGen array
+  countNeighbours();
+
+  cells = nextGen;
 }
 
-render();
+setInterval(render, 10);
 
-// setInterval(render, 1000);
+// -----------------------------
+// conway's game of life
+// made with ☕ by milad gharibi
