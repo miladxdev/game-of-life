@@ -2,7 +2,7 @@ const canvas = document.getElementById("canvas");
 
 const ctx = canvas.getContext("2d");
 
-let canvasWidth = 700;
+let canvasWidth = 800;
 let canvasHeight = 700;
 
 canvas.width = canvasWidth;
@@ -38,7 +38,7 @@ function countNeighbours() {
 
   for (let x = 0; x < col; x++) {
     for (let y = 0; y < row; y++) {
-      if (x - 1 >= 0 && x + 1 < row && y - 1 >= 0 && y + 1 < col) {
+      if (x - 1 >= 0 && x + 1 < col && y - 1 >= 0 && y + 1 < row) {
         // ignore the edges
         cells[x][y - 1].isAlive ? alive++ : dead++; // up
         cells[x + 1][y].isAlive ? alive++ : dead++; // right
