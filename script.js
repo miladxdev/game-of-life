@@ -2,7 +2,7 @@ const canvas = document.getElementById("canvas");
 
 const ctx = canvas.getContext("2d");
 
-let canvasWidth = 800;
+let canvasWidth = 900;
 let canvasHeight = 700;
 
 canvas.width = canvasWidth;
@@ -101,8 +101,11 @@ function render() {
   cells = nextGen;
 }
 
-setInterval(render, 10);
+setInterval(render, 80);
 
-// -----------------------------
-// conway's game of life
-// made with ☕ by milad gharibi
+/* -----------------------------
+  conway's game of life
+  made with ☕ by Milad Gharibi
+  instagram: web.script
+  telegram: @webxscript
+*/
