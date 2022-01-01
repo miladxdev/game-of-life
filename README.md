@@ -20,7 +20,7 @@
     <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/miladxdev/game-of-life">View Demo</a>
+    <a href="https://miladxdev.github.io/game-of-life/">View Demo</a>
     ·
     <a href="https://github.com/miladxdev/game-of-life/issues">Report Bug</a>
     ·
@@ -34,7 +34,7 @@
 
 <!-- ABOUT THE PROJECT -->
 
-# [LIVE DEMO](https://miladxdev.github.io/game-of-life/) ☝
+### [LIVE DEMO](https://miladxdev.github.io/game-of-life/) ☝
 
 ## About The Project
 
@@ -43,7 +43,7 @@ The Game of Life, also known simply as Life, is a cellular automaton devised by 
 ### Built With
 
 - `JAVASCRIPT`
-
+- `Canvas`
 <!-- USAGE EXAMPLES -->
 
 ## Usage
